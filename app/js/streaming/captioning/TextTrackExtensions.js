@@ -13,7 +13,17 @@
  */
 MediaPlayer.utils.TextTrackExtensions = function () {
     "use strict";
+
+    //inserir novo trecho
+    var Cue;
+    //fim do novo trecho
+
     return {
+        //inserir novo trecho
+        setup: function() {
+            Cue = window.VTTCue || window.TextTrackCue;
+        },
+        //fim do novo trecho
         addTextTrack: function(video, captionData,  label, scrlang, isDefaultTrack) {
 
             //TODO: Ability to define the KIND in the MPD - ie subtitle vs caption....
@@ -33,14 +43,53 @@ MediaPlayer.utils.TextTrackExtensions = function () {
         },
         deleteCues: function(video) {
             //when multiple tracks are supported - iterate through and delete all cues from all tracks.
-            var track = video.textTracks[0];
-            var cues = track.cues;
+            //remover esse original
+            //var track = video.textTracks[0];
+            //original acima
 
-            for (var i=cues.length;i>=0;i--) {
+            //inserir novo trecho
+
+            var i = 0,
+                firstValidTrack = false;
+
+            while (!firstValidTrack)
+            {
+                if (video.textTracks[i].cues !== null)
+                {
+                    firstValidTrack = true;
+                    break;
+                }
+                i++
+            }
+//fim do novo trecho aqui
+
+            //remover esse original
+            //var cues = track.cues;
+            //originalacima
+
+            //inserir novo trecho aqui
+            var track = video.textTracks[i],
+                cues = track.cues,
+                lastIdx = cues.length -1;
+
+            //for (var i = lastIdx; i >=0; i -=1) {
+            for (var i = lastIdx; i>=0; i--) {
                 track.removeCue(cues[i]);
             }
 
             track.mode = "disabled";
+            track.default = false;
+
+            //}
+            //fim do novo trecho
+
+//remover esse original
+            //for (var i=cues.length;i>=0;i--) {
+              //  track.removeCue(cues[i]);
+            //}
+
+            //track.mode = "disabled";
+            //original acima
         }
 
     };

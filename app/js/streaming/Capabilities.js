@@ -44,7 +44,13 @@ MediaPlayer.utils.Capabilities.prototype = {
             throw "element must be of type HTMLVideoElement.";
         }
 
+
+
         var canPlay = element.canPlayType(codec);
-        return (canPlay === "probably");
+        //return (canPlay === "probably");
+        //inserida aqui
+        //!!canPlayType('video/mp4,codecs="avc1"').replace("no", "");
+        return (canPlay === "probably" || canPlay === "maybe");
+
     }
 };

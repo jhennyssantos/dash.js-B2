@@ -27,6 +27,7 @@ MediaPlayer.dependencies.AbrController = function () {
             }
 
             quality = qualityDict[type];
+            console.log("ABRController" + quality);
 
             return quality;
         },
@@ -133,6 +134,7 @@ MediaPlayer.dependencies.AbrController = function () {
                 confidence;
 
             quality = getInternalQuality(type);
+            console.log("que porra" + quality);
 
             confidence = getInternalConfidence(type);
 
@@ -164,24 +166,15 @@ MediaPlayer.dependencies.AbrController = function () {
                                             if (req.quality !== MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE) {
                                                 values[req.priority] = Math.min(values[req.priority], req.quality);
 
-                                            //var PORT = 5555;
-                                            //var HOST = '255.255.255.';
-
-                                            //var dgram = require('dgram');
-                                            //var message = new Buffer('My KungFu is Good!');
-
-                                            //var client = dgram.createSocket('udp4');
-                                                //client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
-                                                    //if (err) throw err;
-                                                    //console.log('UDP message sent to ' + HOST +':'+ PORT);
-                                                    //client.close();
-                                                //});
+                                            
                                             }
+                                            
                                         }
 
                                         if (values[MediaPlayer.rules.SwitchRequest.prototype.WEAK] !== MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE) {
                                             newConfidence = MediaPlayer.rules.SwitchRequest.prototype.WEAK;
                                             newQuality = values[MediaPlayer.rules.SwitchRequest.prototype.WEAK];
+
                                         }
 
                                         if (values[MediaPlayer.rules.SwitchRequest.prototype.DEFAULT] !== MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE) {
@@ -196,30 +189,25 @@ MediaPlayer.dependencies.AbrController = function () {
 
                                         if (newQuality !== MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE && newQuality !== undefined) {
                                             quality = newQuality;
-                                            //const dgram = require('./nodejs/dgram.js');
-                                            //const message = Buffer.from('Some bytes');
-                                            //const client = dgram.createSocket('udp4');
-                                            //client.send(message, 5555, '255.255.255.255', (err) => {
-                                            //     client.close();
-                                            //});
 
-                                            //var PORT = 5555;
-                                            //var HOST = '255.255.255.';
+                                            console.log("----QUALITY" + quality);
+                                            
+                                            //<script>
+                                           /* var xhttp = new XMLHttpRequest();
+                                            //input
+                                            xhttp.onreadystatechange = function() {
+                                            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                                            alert(xhttp.responseText);
+                                                }
+                                            }
+                                            
+                                            //xhttp.open("GET", "http://localhost:8080/", true);
+                                            xhttp.open("GET", "http://localhost/teste.php", true);
+                                            xhttp.send();
 
-                                            //var dgram = require('dgram');
-                                            //var message = new Buffer('My KungFu is Good!');
+                                            console.log("It's Fine");*/
 
-                                            //var client = dgram.createSocket('udp4');
-                                                //client.send(message, 0, message.length, PORT, HOST, function(err, bytes) {
-                                                    //if (err) throw err;
-                                                    //console.log('UDP message sent to ' + HOST +':'+ PORT);
-                                                    //client.close();
-                                                //});
-
-                                            // inicio de notificação de qualidade
-                                            //Dispatcher.('quality.changed', {quality: 'low'});
-                                            // fim de notificação de qualidade
-                                            // Autor: Jhenifer
+                                            
                                         }
 
                                         if (newConfidence !== MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE && newConfidence !== undefined) {
@@ -243,10 +231,10 @@ MediaPlayer.dependencies.AbrController = function () {
                                                 }
 
                                                 setInternalQuality(type, quality);
-                                                //self.debug.log("New quality of " + quality);
+                                                self.debug.log("New quality of " + quality);
 
                                                 setInternalConfidence(type, confidence);
-                                                //self.debug.log("New confidence of " + confidence);
+                                                self.debug.log("New confidence of " + confidence);
 
                                                 deferred.resolve({quality: quality, confidence: confidence});
                                             }
@@ -263,6 +251,8 @@ MediaPlayer.dependencies.AbrController = function () {
                 self.debug.log("Unchanged quality of " + quality);
                 deferred.resolve({quality: quality, confidence: confidence});
             }
+            console.log("--ABRController2" + quality);
+            console.log("--ABRController3" + newQuality);
 
             return deferred.promise;
         },

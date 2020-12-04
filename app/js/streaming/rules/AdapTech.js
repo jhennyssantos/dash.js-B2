@@ -28,6 +28,7 @@ MediaPlayer.rules.AdapTech = function () {
     		for(var i = 0; i < throughList.length; i++){
     			if(throughList[i].bandwidth == null || throughList[i].bandwidth == 0){
     				quality = throughList[i].quality;
+                    console.log("-----Q" + quality)
     				representation = availableRepresentations[quality];
     				bandwidth = self.metricsExt.getBandwidthForRepresentation(representation.id);
     				bandwidth /= 1000; //bit/ms
@@ -117,7 +118,8 @@ MediaPlayer.rules.AdapTech = function () {
             deferred = Q.defer();
             
             if(metricsBaseline.ThroughSeg.length == 1){
-        		averageThrough = currentThrough;	
+        		averageThrough = currentThrough;
+                console.log("O que e isso" + averageThrough)	
     		}else{
         		average = self.metricsBaselineExt.getAverageThrough(t1, metricsBaseline.ThroughSeg, startRequest);	
         		averageThrough = (sigma * average) + ((1 - sigma) * currentThrough);

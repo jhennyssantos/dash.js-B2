@@ -11,8 +11,14 @@
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+//const { networkInterfaces } = require('os');
 MediaPlayer.dependencies.BufferController = function () {
     "use strict";
+
+
+
+    
+
     var STALL_THRESHOLD = 0.5,
     	insertVideo=true,
     	insertAudio=true,
@@ -67,6 +73,14 @@ MediaPlayer.dependencies.BufferController = function () {
         playListMetrics = null,
         playListTraceMetrics = null,
         playListTraceMetricsClosed = true,
+
+
+
+
+        
+
+
+
 
         setState = function (value) {
             var self = this;
@@ -715,6 +729,7 @@ MediaPlayer.dependencies.BufferController = function () {
                 if (qualityChanged) {
                     deferredInitAppend = Q.defer();
                     lastQuality = currentQuality;
+                    console.log("BufferControler - lastQuality" + lastQuality);
                     if (initializationData[currentQuality]) {
                         appendToBuffer.call(this, initializationData[currentQuality], currentQuality).then(
                             function() {
@@ -930,14 +945,33 @@ MediaPlayer.dependencies.BufferController = function () {
                 self.abrController.getPlaybackQuality(type, data, availableRepresentations).then(
                     function (result) {
                         var quality = result.quality;
-                        //self.debug.log(type + " Playback quality: " + quality);
+                        self.debug.log(type + " Playback quality: " + quality);
                         //self.debug.log("Populate " + type + " buffers.");
 
                         if (quality !== undefined) {
                             newQuality = quality;
+                            console.log("BufferController - newQuality" + newQuality);
                         }
 
                         qualityChanged = (quality !== lastQuality);
+                        //console.log("BufferController - qualityChanged" + qualityChanged);
+                        if (qualityChanged) {
+
+
+
+                            console.log("lastQuality = " + lastQuality + " quality = " + quality);
+
+                        var xhttp = new XMLHttpRequest();
+                        xhttp.open("GET", "http://10.20.20.100:8080/simpleswitch/changeQuality/"+lastQuality+"/"+quality, true);
+                        console.log("$$$$$$$$$$$$ GET" + xhttp);
+                        xhttp.send();
+
+                        }
+                        
+
+
+
+                        //log('mediaType (' + type + ')' + 'streamInfo ' + streamInfo + ' oldQuality ' + oldQuality + 'newQuality' + newQuality + (reason ? JSON.stringify(reason) : '.'));
 
                         if (qualityChanged === true) {
                             // The quality has beeen changed so we should abort the requests that has not been loaded yet
